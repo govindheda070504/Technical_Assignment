@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Join Video Chat Room</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0c1e3c;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      background: #142b50;
+      border-radius: 8px;
+      padding: 30px 40px;
+      width: 300px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      text-align: left;
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.4em;
+    }
+    p {
+      font-size: 0.9em;
+      margin-bottom: 20px;
+      color: #cbd5e1;
+    }
+    label {
+      font-size: 0.85em;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .join-btn {
+      background: #2e90fa;
+      color: white;
+    }
+    .join-btn:hover {
+      background: #1e75d1;
+    }
+    .cancel-btn {
+      background: #334155;
+      color: #cbd5e1;
+    }
+    .cancel-btn:hover {
+      background: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Join Video Room</h2>
+    <p>Enter the Room ID you received to join the session.</p>
+    <label for="roomInput">Room ID *</label>
+    <input id="roomInput" placeholder="e.g., 123" />
+    <div class="actions">
+      <button class="join-btn" id="joinBtn">Join Room</button>
+      <button class="cancel-btn" onclick="window.location.href='/'">Cancel</button>
+    </div>
+  </div>
+  <script>
+  document.getElementById('joinBtn').onclick = async () => {
+    const roomId = document.getElementById('roomInput').value.trim();
+    if (!roomId) return alert('Please enter a Room ID.');
+
+    try {
+      const res = await fetch(`/check-room?room=${roomId}`);
+      if (res.status === 200) {
+        window.location.href = `/room.html?room=${roomId}`;
+      } else {
+        alert('Room does not exist.');
+      }
+    } catch (err) {
+      console.error('Error checking room:', err);
+      alert('Failed to check room.');
+    }
+  };
+</script>
+
+</body>
+</html>
